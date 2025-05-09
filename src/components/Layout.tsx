@@ -10,7 +10,7 @@ function Layout({ children }: LayoutProps) {
   return (
     <div>
       <Sidebar />
-      <Header />
+      <Header userName="João" cityName="Sorocaba" />
       <main>{children}</main>
     </div>
   );
