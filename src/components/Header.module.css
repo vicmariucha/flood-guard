@@ -1,48 +1,59 @@
 .header {
-    background-color: white;
-    border-bottom: 1px solid #ddd;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2rem;
-  }
-  
-  .left {
-    font-size: 14px;
-    color: #0D1622;
-  }
-  
-  .bold {
-    font-weight: 600;
-  }
-  
-  .right {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-  
-  .link {
-    font-size: 14px;
-    color: #00B4B2;
-    text-decoration: none;
-  }
-  
-  .link:hover {
-    text-decoration: underline;
-  }
-  
-  .iconButton {
-    background: none;
-    border: none;
-    padding: 6px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .iconButton:hover {
-    background-color: #f0f0f0;
-  }
-  
+  height: 64px;
+  width: 100vw;
+  background-color: #00B4B2;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
+
+  /* conteúdo depois da sidebar */
+  padding-left: 280px;
+  padding-right: 24px;
+}
+
+
+.left {
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.link {
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.iconBtn {
+  padding: 8px;
+  border-radius: 9999px;
+  background-color: white;
+  color: #0d1622;
+  border: none;
+  cursor: pointer;
+}
+
+.userBtn {
+  padding: 8px;
+  border-radius: 9999px;
+  background-color: #f4f6f8;
+  border: none;
+  cursor: pointer;
+}

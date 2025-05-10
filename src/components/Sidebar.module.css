@@ -1,0 +1,73 @@
+.sidebar {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    width: 220px;
+    height: calc(100vh - 32px);
+    background-color: #0a1f3c;
+    border-radius: 20px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    z-index: 10;
+    color: white;
+  }
+  
+  .logoArea {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  
+  .logoIcon {
+    background-color: #00B4B2;
+    padding: 6px;
+    border-radius: 50%;
+  }
+  
+  .droplet {
+    color: white;
+  }
+  
+  .logoText {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 28px;
+  }
+  
+  .navItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 6px 8px;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  
+  .navItem:hover {
+    background-color: #1a324f;
+  }
+  
+  .footer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 450px;
+  }
+  
+  .logout {
+    color: #ff4d4d;
+  }
+  

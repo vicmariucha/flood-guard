@@ -1,0 +1,18 @@
+.layoutContainer {
+    display: flex;
+    background-color: #f4f6f8;
+    min-height: 100vh;
+    position: relative;
+  }
+  
+  .mainContent {
+    margin-left: 240px; /* espaço da sidebar */
+    width: calc(100% - 240px);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .pageContent {
+    padding: 24px;
+  }
+  

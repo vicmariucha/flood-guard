@@ -15,8 +15,8 @@ function Header({ userName, cityName }: HeaderProps) {
       </div>
       <div className={styles.right}>
         <a href="#" className={styles.link}>Sobre o projeto</a>
-        <button className={styles.iconButton}><Bell size={18} /></button>
-        <button className={styles.iconButton}><User size={18} /></button>
+        <button className={styles.iconBtn}><Bell size={18} /></button>
+        <button className={styles.userBtn}><User size={18} /></button>
       </div>
     </header>
   );
