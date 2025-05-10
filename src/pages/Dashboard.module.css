@@ -1,0 +1,13 @@
+.container {
+    width: 100%;
+    padding: 64px 24px 24px 24px; 
+    box-sizing: border-box;
+  }
+  
+  .cardsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    width: 100%;
+  }
+  
