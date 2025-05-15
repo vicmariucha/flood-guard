@@ -11,3 +11,11 @@
     width: 100%;
   }
   
+  .graphAndAlert {
+    display: grid;
+    grid-template-columns: 2fr 1fr; 
+    gap: 1rem;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
