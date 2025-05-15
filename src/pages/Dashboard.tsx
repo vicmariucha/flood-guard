@@ -1,6 +1,7 @@
 import InfoCard from "../components/InfoCard";
 import { Droplet, CloudRain, CheckCircle, Thermometer } from "lucide-react";
 import styles from "./Dashboard.module.css";
+import WaterLevelChart from "../components/WaterLevelChart";
 
 function Dashboard() {
   return (
@@ -35,6 +36,7 @@ function Dashboard() {
           icon={<Thermometer />}
         />
       </div>
+      <WaterLevelChart />
     </div>
   );
 }
