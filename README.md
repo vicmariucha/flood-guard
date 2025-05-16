@@ -1,54 +1,106 @@
-# React + TypeScript + Vite
+# 🌊 FloodGuard – Sistema de Monitoramento de Enchentes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O **FloodGuard** é um sistema completo de monitoramento de enchentes desenvolvido para operar totalmente **offline**, com base em sensores físicos conectados a um microcontrolador **ESP32**, integrados a uma aplicação web moderna construída com **React + TypeScript + Vite**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Funcionalidades
 
-## Expanding the ESLint configuration
+- 📶 Leitura em tempo real dos sensores de **nível de água** (HC-SR04) e **chuva** (analógico)
+- 🔄 Envio dos dados via **USB serial** diretamente ao banco **CouchDB local**
+- 💻 Interface de dashboard local com **visualização gráfica**
+- 📈 Gráfico de nível da água
+- 🚨 Alerta de status quando o nível se aproxima do limite
+- 🌤️ Bloco de previsão do tempo (mock)
+- 🔒 Totalmente funcional **sem acesso à internet**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 🧱 Arquitetura do Sistema
+
+```mermaid
+graph TD;
+    Sensores --> ESP32;
+    ESP32 --> PythonScript;
+    PythonScript --> CouchDB;
+    CouchDB --> Frontend;
+    Frontend --> UsuarioFinal;
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🔌 Tecnologias Utilizadas
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+| Camada       | Tecnologia                      |
+|--------------|----------------------------------|
+| Microcontrolador | ESP32                          |
+| Sensores     | HC-SR04 (nível), analógico (chuva) |
+| Backend      | Python (serial + requests)       |
+| Banco de dados | CouchDB (NoSQL local)            |
+| Frontend     | React + TypeScript + Vite        |
+| Estilo       | CSS Modules                      |
+| Gráficos     | Recharts                         |
+
+---
+
+## ⚙️ Como rodar o projeto
+
+### 1. Clone o repositório
+```bash
+git clone https://github.com/vicmariucha/flood-guard.git
+cd flood-guard
 ```
+
+### 2. Instale as dependências
+```bash
+npm install
+```
+
+### 3. Rode a aplicação
+```bash
+npm run dev
+```
+
+### 4. Verifique se o script Python está rodando
+Certifique-se de que o script `enviador_serial_couchdb.py` está enviando os dados corretamente para o CouchDB.
+
+---
+
+## 💾 Estrutura de Diretórios
+
+```
+flood-guard/
+├── public/
+├── src/
+│   ├── components/      # Componentes visuais
+│   ├── pages/           # Página principal (Dashboard)
+│   ├── services/        # Comunicação com o CouchDB
+├── enviador_serial_couchdb.py  # Script de envio de dados via serial
+├── README.md
+```
+
+---
+
+## 🧪 Requisitos
+
+- Node.js + npm
+- Python 3.x com `pyserial` e `requests`
+- CouchDB instalado localmente (porta 5984)
+- ESP32 conectado à máquina via USB
+
+---
+
+## 📦 Próximos passos
+
+- Conectar API real de clima (OpenWeather)
+- Registrar histórico de dados e exibir
+- Criar Progressive Web App
+- Enviar alertas via email ou WhatsApp
+
+---
+
+## 🧑‍💻 Autor
+
+Desenvolvido por **Gustavo Argoze e Victória Mariucha** – .
+
+---
