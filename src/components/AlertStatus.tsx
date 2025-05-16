@@ -11,9 +11,13 @@ function AlertStatus() {
         <span className={styles.title}>Status de alerta</span>
         <div className={styles.badge}>Alerta</div>
       </div>
-      <div className={styles.progressBar}>
-        <div className={styles.progressFill} style={{ width: "75%" }}></div>
-      </div>
+      <div className={styles.progressWrapper}>
+        <div className={styles.progressBar}>
+            <div className={styles.progressFill} style={{ width: "75%" }}></div>
+        </div>
+        <span className={styles.progressValue}>75%</span>
+    </div>
+
       <p className={styles.description}>
         Nível de água próximo ao limite crítico. <br />
         Monitoramento contínuo necessário

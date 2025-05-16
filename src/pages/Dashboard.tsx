@@ -3,6 +3,7 @@ import { Droplet, CloudRain, CheckCircle, Thermometer } from "lucide-react";
 import styles from "./Dashboard.module.css";
 import WaterLevelChart from "../components/WaterLevelChart";
 import AlertStatus from "../components/AlertStatus";
+import WeatherForecast from "../components/WeatherForecast";
 
 function Dashboard() {
   return (
@@ -39,8 +40,12 @@ function Dashboard() {
       </div>
       <div className={styles.graphAndAlert}>
         <WaterLevelChart />
-        <AlertStatus />
+        <div>
+          <AlertStatus />
+          <WeatherForecast />
+        </div>
       </div>
+
 
     </div>
   );
