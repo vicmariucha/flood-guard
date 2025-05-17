@@ -1,0 +1,45 @@
+.card {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0d1622;
+  }
+  
+  .alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .icon {
+    color: #facc15; /* amarelo para chamar atenção */
+    flex-shrink: 0;
+  }
+  
+  .texts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .alertTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0d1622;
+  }
+  
+  .alertDescription {
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.4;
+  }
+  

@@ -5,6 +5,9 @@ import WaterLevelChart from "../components/WaterLevelChart";
 import AlertStatus from "../components/AlertStatus";
 import WeatherForecast from "../components/WeatherForecast";
 import { useEffect, useState } from "react";
+import StationInfoCard from "../components/StationInfoCard";
+import WaterLevelAnalysisCard from "../components/WaterLevelAnalysisCard";
+import FloodAlertCard from "../components/FloodAlertCard";
 
 type DadosMonitoramento = {
   nivelAgua: number;
@@ -75,6 +78,11 @@ function Dashboard() {
           <AlertStatus nivelAgua={dados?.nivelAgua ?? 0} />
           <WeatherForecast />
         </div>
+      </div>
+      <div className={styles.bottomGrid}>
+        <StationInfoCard />
+        <FloodAlertCard />
+        <WaterLevelAnalysisCard />
       </div>
     </div>
   );
