@@ -21,7 +21,7 @@ import {
   function WaterLevelChart() {
     return (
       <div style={{ background: "#fff", padding: "1rem", borderRadius: "10px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
-        <h3 style={{ marginBottom: "1rem", fontSize: "16px", color: "#0D1622" }}>Nível da água (cm)</h3>
+        <h3 style={{ marginBottom: "1rem", fontSize: "26px", color: "#0D1622" }}>Nível da água (cm)</h3>
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" />

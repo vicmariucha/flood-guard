@@ -18,9 +18,9 @@
   }
   
   .title {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 600;
-    color: #4B5563;
+    color: #4e535a;
   }
   
   .icon {
@@ -35,7 +35,8 @@
   }
   
   .description {
-    font-size: 12px;
+    font-size: 13px;
     color: #EF4444;
+    font-weight: 600;
   }
   

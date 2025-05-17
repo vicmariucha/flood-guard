@@ -9,7 +9,7 @@
   }
   
   .title {
-    font-size: 15px;
+    font-size: 26px;
     font-weight: 600;
     color: #0d1622;
   }
@@ -21,7 +21,7 @@
   }
   
   .icon {
-    color: #facc15; /* amarelo para chamar atenção */
+    color: #facc15; 
     flex-shrink: 0;
   }
   

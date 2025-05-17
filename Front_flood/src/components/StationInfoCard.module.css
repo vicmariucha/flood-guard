@@ -8,8 +8,12 @@
     gap: 0.75rem;
   }
   
+  .header{
+    display: inline;
+  }
+
   .title {
-    font-size: 15px;
+    font-size: 26px;
     font-weight: 600;
     color: #0d1622;
   }
@@ -19,17 +23,24 @@
     align-items: center;
     gap: 0.5rem;
     color: #374151;
-    font-size: 14px;
   }
   
+  .subtitle{
+    font-size: 14px;
+  }
+
   .coords {
     font-weight: 500;
+    font-size: 16px;
   }
   
   .status {
     margin-left: auto;
     font-size: 13px;
-    color: #22c55e;
+    color: #15803D;
+    background-color: #DCFCE7;
+    padding: 5px 10px;
+    border-radius: 100px;
   }
   
   .timestamp {

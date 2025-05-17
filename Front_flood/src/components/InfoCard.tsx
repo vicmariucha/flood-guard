@@ -6,7 +6,7 @@ interface InfoCardProps {
   value: string;
   icon?: ReactNode;
   description?: string;
-  highlightColor?: string; // exemplo: "#F97316"
+  highlightColor?: string; 
 }
 
 function InfoCard({ title, value, icon, description, highlightColor }: InfoCardProps) {
