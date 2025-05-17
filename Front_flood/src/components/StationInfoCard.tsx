@@ -4,9 +4,10 @@ import { MapPin } from "lucide-react";
 function StationInfoCard() {
   return (
     <div className={styles.card}>
-      <h3 className={styles.title}>Estação Principal</h3>
-      <span className={styles.status}>● Online</span>
-
+      <div className={styles.header}>
+        <h3 className={styles.title}>Estação Principal</h3>
+        <span className={styles.status}>● Online</span>
+      </div>
       <div className={styles.location}>
         <MapPin size={16} />
         <span className={styles.subtitle}>Localização</span>
