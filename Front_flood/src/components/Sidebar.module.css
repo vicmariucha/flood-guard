@@ -21,24 +21,16 @@
   padding: 1rem 0;
 }
 
-.logoIcon {
-  background-color: #0EA5E9; 
-  padding: 0.25rem;
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.droplet {
-  color: white;
-  width: 20px;
-  height: 20px;
+.logoImage {
+  width: 45px;
+  height: 69px;
+  object-fit: contain;
+  display: block;
 }
 
 .logoText {
   font-weight: 700;
-  font-size: 16px;
+  font-size: 20px;
   color: white;
 }
 

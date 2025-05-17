@@ -1,29 +1,21 @@
-import {
-  LayoutDashboard,
-  History,
-  TrendingUp,
-  Bell,
-  Building,
-  Settings,
-  LogOut,
-  Droplet
-} from "lucide-react";
+import { LayoutDashboard, History, TrendingUp, Bell, Building, Settings, LogOut } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import styles from "./Sidebar.module.css";
+import logo from "../assets/logo.png";
 
 function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logoArea}>
-        <div className={styles.logoIcon}>
-          <Droplet size={20} className={styles.droplet} />
-        </div>
+      <div className={styles.logoIcon}>
+        <img src={logo} alt="Logo FloodGuard" className={styles.logoImage} />
+      </div>
         <span className={styles.logoText}>FloodGuard</span>
       </div>
 
       <nav className={styles.nav}>
         <NavLink to="/" className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}>
-          <LayoutDashboard size={20} /> Visão Geral
+          <LayoutDashboard size={20} /> Visão geral
         </NavLink>
         <NavLink to="/historico" className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}>
           <History size={20} /> Histórico
