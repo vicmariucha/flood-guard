@@ -1,10 +1,19 @@
+import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 
 function App() {
   return (
-    <Layout>
-      <h1>Conteúdo da dashboard</h1>
-    </Layout>
+    <Routes>
+      <Route
+        path="*"
+        element={
+          <Layout
+            userName="Victoria"
+            cityName="Sorocaba"
+          />
+        }
+      />
+    </Routes>
   );
 }
 
