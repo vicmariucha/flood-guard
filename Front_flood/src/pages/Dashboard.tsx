@@ -17,6 +17,7 @@ type DadosMonitoramento = {
 
 function Dashboard() {
   const [dados, setDados] = useState<DadosMonitoramento | null>(null);
+  const [temperatura, setTemperatura] = useState<string>("...");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,8 +36,27 @@ function Dashboard() {
       }
     };
 
+    const fetchTemperatura = async () => {
+      try {
+        const response = await fetch(
+          "https://api.openweathermap.org/data/2.5/weather?q=Sorocaba,BR&units=metric&appid=768fbe3a06b08b21e4e4f23d2a924f47"
+        );
+        const data = await response.json();
+        const tempAtual = Math.round(data.main.temp);
+        setTemperatura(`${tempAtual}°C`);
+      } catch (error) {
+        console.error("Erro ao buscar temperatura:", error);
+      }
+    };
+
     fetchData();
-    const interval = setInterval(fetchData, 5000);
+    fetchTemperatura();
+
+    const interval = setInterval(() => {
+      fetchData();
+      fetchTemperatura();
+    }, 5000);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -66,7 +86,7 @@ function Dashboard() {
         />
         <InfoCard
           title="Temperatura"
-          value="28°C"
+          value={temperatura}
           description="+2°C em relação ao mês anterior"
           highlightColor="#EF4444"
           icon={<Thermometer />}
