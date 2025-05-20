@@ -1,15 +1,7 @@
-import styles from "./HistoryPage.module.css";
 import { useState } from "react";
-import { Download, Calendar } from "lucide-react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-} from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { CalendarDays, Download } from "lucide-react";
+import styles from "./HistoryPage.module.css";
 
 const tableData = [
   { date: "19/05/2025", time: "14:00", waterLevel: "32 cm", rain: "20 mm/h", temp: "28°C", alert: "Moderado" },
@@ -39,75 +31,87 @@ function HistoryPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Histórico de dados</h2>
+        <h2 className={styles.title}>Histórico de Dados</h2>
         <div className={styles.actions}>
-          <button className={styles.filterBtn}>
-            <Calendar size={16} />
-            Filtrar por data
+          <button className={styles.dateFilterButton}>
+            <CalendarDays size={16} /> Filtrar por data
           </button>
-          <button className={styles.exportBtn}>
-            <Download size={16} />
-            Exportar dados
+          <button className={styles.exportButton}>
+            <Download size={16} /> Exportar dados
           </button>
         </div>
       </div>
 
-      <div className={styles.tabs}>
-        <button
-          className={`${styles.tab} ${activeTab === "tabela" ? styles.active : ""}`}
-          onClick={() => setActiveTab("tabela")}
-        >
-          Tabela
-        </button>
-        <button
-          className={`${styles.tab} ${activeTab === "grafico" ? styles.active : ""}`}
-          onClick={() => setActiveTab("grafico")}
-        >
-          Gráfico
-        </button>
+      <div className={styles.tabsContainer}>
+        <div className={styles.tabsList}>
+          <button
+            className={styles.tabButton}
+            data-state={activeTab === "tabela" ? "active" : "inactive"}
+            onClick={() => setActiveTab("tabela")}
+          >
+            Tabela
+          </button>
+          <button
+            className={styles.tabButton}
+            data-state={activeTab === "grafico" ? "active" : "inactive"}
+            onClick={() => setActiveTab("grafico")}
+          >
+            Gráfico
+          </button>
+        </div>
       </div>
 
-      {activeTab === "grafico" && (
-        <div className={styles.chartCard}>
-          <h3 className={styles.cardTitle}>Histórico de nível da água</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={chartData}>
-              <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-              <XAxis dataKey="time" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="level" stroke="#00b4b2" strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
+      {activeTab === "grafico" ? (
+        <div className={styles.card}>
+          <div className={styles.cardHeader}>
+            <h3 className={styles.cardTitle}>Histórico de nível da água</h3>
+          </div>
+          <div className={styles.cardContent}>
+            <div className={styles.chartContainer}>
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData}>
+                  <XAxis dataKey="time" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="level" stroke="#0EA5E9" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
         </div>
-      )}
-
-      {activeTab === "tabela" && (
-        <div className={styles.tableWrapper}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>Data</th>
-                <th>Hora</th>
-                <th>Nível da água</th>
-                <th>Volume de chuva</th>
-                <th>Temperatura</th>
-                <th>Status de alerta</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tableData.map((entry, index) => (
-                <tr key={index}>
-                  <td>{entry.date}</td>
-                  <td>{entry.time}</td>
-                  <td>{entry.waterLevel}</td>
-                  <td>{entry.rain}</td>
-                  <td>{entry.temp}</td>
-                  <td>{entry.alert}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      ) : (
+        <div className={styles.card}>
+          <div className={styles.cardHeader}>
+            <h3 className={styles.cardTitle}>Registros históricos</h3>
+          </div>
+          <div className={styles.cardContent}>
+            <div className={styles.tableContainer}>
+              <table className={styles.table}>
+                <thead className={styles.tableHeader}>
+                  <tr>
+                    <th className={styles.tableHead}>Data</th>
+                    <th className={styles.tableHead}>Hora</th>
+                    <th className={styles.tableHead}>Nível da água</th>
+                    <th className={styles.tableHead}>Volume de chuva</th>
+                    <th className={styles.tableHead}>Temperatura</th>
+                    <th className={styles.tableHead}>Status de alerta</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableData.map((entry, index) => (
+                    <tr key={index} className={styles.tableRow}>
+                      <td className={styles.tableCell}>{entry.date}</td>
+                      <td className={styles.tableCell}>{entry.time}</td>
+                      <td className={styles.tableCell}>{entry.waterLevel}</td>
+                      <td className={styles.tableCell}>{entry.rain}</td>
+                      <td className={styles.tableCell}>{entry.temp}</td>
+                      <td className={styles.tableCell}>{entry.alert}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       )}
     </div>
