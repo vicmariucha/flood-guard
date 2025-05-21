@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 import styles from "./Layout.module.css";
 import Dashboard from "../pages/Dashboard";
 import HistoryPage from "../pages/HistoryPage";
-
+import PrevisaoPage from "../pages/PrevisaoPage";
 interface LayoutProps {
   userName: string;
   cityName: string;
@@ -21,7 +21,7 @@ function Layout({ userName, cityName }: LayoutProps) {
       case "/historico":
         return <HistoryPage />;
       case "/previsao":
-        return <div style={{ padding: "2rem" }}>Página de Previsão</div>;
+        return <PrevisaoPage/>;
       case "/alertas":
         return <div style={{ padding: "2rem" }}>Página de Alertas</div>;
       case "/cidades":

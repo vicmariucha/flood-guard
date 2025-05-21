@@ -1,0 +1,119 @@
+/* PrevisaoPage.module.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 4rem 2rem;
+    background-color: #f4f6f8;
+    min-height: calc(100vh - 64px);
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #0d1622;
+  }
+  
+  .card {
+    background-color: white;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+  }
+  
+  .cardHeader {
+    margin-bottom: 1.5rem;
+  }
+  
+  .cardTitle {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #0d1622;
+  }
+  
+  .cardSubtitle {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin-top: 0.25rem;
+  }
+  
+  .chartArea {
+    width: 100%;
+  }
+  
+  .chartLabel {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #0d1622;
+  }
+  
+  .bottomCards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  
+  .analysisCard,
+  .accuracyCard {
+    background-color: white;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .analysisHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #0d1622;
+    font-size: 1rem;
+  }
+  
+  .analysisText {
+    font-size: 0.875rem;
+    color: #374151;
+  }
+  
+  .alertBox {
+    background-color: #fef9c3;
+    color: #92400e;
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+  }
+  
+  .accuracyRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #0d1622;
+  }
+  
+  .progressBar {
+    flex: 1;
+    height: 8px;
+    background-color: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  
+  .progressBar > div {
+    background-color: #22c55e;
+    height: 100%;
+    border-radius: 999px;
+  }
+  
+  .timestamp {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+  
