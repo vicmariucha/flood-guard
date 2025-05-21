@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { CalendarDays, Download } from "lucide-react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import styles from "./HistoryPage.module.css";
+import { createPortal } from "react-dom";
 
 const tableData = [
   { date: "19/05/2025", time: "14:00", waterLevel: "32 cm", rain: "20 mm/h", temp: "28°C", alert: "Moderado" },
@@ -40,18 +43,63 @@ function exportToCSV() {
   link.click();
 }
 
-
 function HistoryPage() {
   const [activeTab, setActiveTab] = useState("grafico");
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [open, setOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [open]);
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.title}>Histórico de Dados</h2>
         <div className={styles.actions}>
-          <button className={styles.dateFilterButton}>
+          <button
+            ref={buttonRef}
+            className={styles.dateFilterButton}
+            onClick={() => setOpen(!open)}
+          >
             <CalendarDays size={16} /> Filtrar por data
           </button>
+
+          {open &&
+            createPortal(
+              <div
+                style={{
+                  position: "absolute",
+                  top: buttonRef.current!.getBoundingClientRect().bottom + window.scrollY + 8,
+                  left: buttonRef.current!.getBoundingClientRect().left + window.scrollX,
+                  zIndex: 9999,
+                }}
+              >
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => {
+                    setStartDate(date);
+                    setOpen(false);
+                  }}
+                  inline
+                  calendarClassName={styles.customDatepicker}
+                />
+              </div>,
+              document.body
+            )}
+
           <button onClick={exportToCSV} className={styles.exportButton}>
             <Download size={16} /> Exportar dados
           </button>
