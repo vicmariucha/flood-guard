@@ -10,13 +10,13 @@
   top: 0;
   left: 0;
   z-index: 5;
-  padding-left: 280px;
+  padding-left: 320px;
   padding-right: 24px;
 }
 
 
 .left {
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 500;
   color: white;
 }
@@ -25,10 +25,12 @@
   display: flex;
   align-items: center;
   gap: 24px;
+  margin-right: 1.5rem;
+
 }
 
 .link {
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 500;
   color: white;
   text-decoration: none;
@@ -39,18 +41,30 @@
 }
 
 .iconBtn {
-  padding: 8px;
-  border-radius: 9999px;
+  height: 2.5rem;
+  width: 2.5rem;
+  padding: 0.5rem;
+  border-radius: 5rem;
   background-color: white;
   color: #0d1622;
   border: none;
   cursor: pointer;
 }
 
+.iconBtn:hover{
+  background-color: #e9ebec;
+}
+
 .userBtn {
-  padding: 8px;
-  border-radius: 9999px;
+  height: 2.5rem;
+  width: 2.5rem;
+  padding: 0.5rem;
+  border-radius: 5rem;
   background-color: #f4f6f8;
   border: none;
   cursor: pointer;
+}
+
+.userBtn:hover{
+  background-color: #e9ebec;
 }
