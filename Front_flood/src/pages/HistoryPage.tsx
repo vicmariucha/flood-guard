@@ -1,68 +1,71 @@
 import { useState, useRef, useEffect } from "react";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import { CalendarDays, Download } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "./HistoryPage.module.css";
 import { createPortal } from "react-dom";
+import { fetchMonitoramento } from "../services/couchdb";
 
-const tableData = [
-  { date: "19/05/2025", time: "14:00", waterLevel: "32 cm", rain: "20 mm/h", temp: "28°C", alert: "Moderado" },
-  { date: "18/05/2025", time: "14:00", waterLevel: "28 cm", rain: "12 mm/h", temp: "26°C", alert: "Baixo" },
-  { date: "17/05/2025", time: "14:00", waterLevel: "35 cm", rain: "30 mm/h", temp: "29°C", alert: "Alto" },
-  { date: "16/05/2025", time: "14:00", waterLevel: "22 cm", rain: "10 mm/h", temp: "25°C", alert: "Baixo" },
-];
-
-const chartData = [
-  { time: "00:00", level: 10 },
-  { time: "02:00", level: 12 },
-  { time: "04:00", level: 15 },
-  { time: "06:00", level: 13 },
-  { time: "08:00", level: 16 },
-  { time: "10:00", level: 18 },
-  { time: "12:00", level: 19 },
-  { time: "14:00", level: 23 },
-  { time: "16:00", level: 25 },
-  { time: "18:00", level: 27 },
-  { time: "20:00", level: 29 },
-  { time: "22:00", level: 27 },
-];
-
-function exportToCSV() {
-  const header = "Data,Hora,Nível da água,Volume de chuva,Temperatura,Status de alerta\n";
-  const rows = tableData
-    .map(d => `${d.date},${d.time},${d.waterLevel},${d.rain},${d.temp},${d.alert}`)
-    .join("\n");
-
-  const blob = new Blob([header + rows], { type: "text/csv" });
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "historico.csv";
-  link.click();
-}
+type DadosMonitoramento = {
+  nivelAgua: number;
+  chuva: number;
+  timestamp: string;
+};
 
 function HistoryPage() {
   const [activeTab, setActiveTab] = useState("grafico");
   const [startDate, setStartDate] = useState<Date | null>(null);
+  const [dados, setDados] = useState<DadosMonitoramento[]>([]);
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
+    const carregarDados = async () => {
+      const historico = await fetchMonitoramento();
+      setDados(
+        historico.sort(
+          (a: DadosMonitoramento, b: DadosMonitoramento) =>
+            new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        )
+      );
     };
-    if (open) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [open]);
+    carregarDados();
+  }, []);
+
+  const exportToCSV = () => {
+    const header =
+      "Data,Hora,Nível da água (cm),Volume de chuva (mm/h)\n";
+    const rows = dados
+      .map((d) => {
+        const data = new Date(d.timestamp);
+        const date = data.toLocaleDateString();
+        const time = data.toLocaleTimeString();
+        return `${date},${time},${d.nivelAgua},${d.chuva}`;
+      })
+      .join("\n");
+
+    const blob = new Blob([header + rows], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "historico.csv";
+    link.click();
+  };
+
+  const chartData = dados.map((item) => ({
+    time: new Date(item.timestamp).toLocaleTimeString(),
+    nivelAgua: item.nivelAgua,
+    chuva: item.chuva,
+  }));
 
   return (
     <div className={styles.container}>
@@ -82,8 +85,13 @@ function HistoryPage() {
               <div
                 style={{
                   position: "absolute",
-                  top: buttonRef.current!.getBoundingClientRect().bottom + window.scrollY + 8,
-                  left: buttonRef.current!.getBoundingClientRect().left + window.scrollX,
+                  top:
+                    buttonRef.current!.getBoundingClientRect().bottom +
+                    window.scrollY +
+                    8,
+                  left:
+                    buttonRef.current!.getBoundingClientRect().left +
+                    window.scrollX,
                   zIndex: 9999,
                 }}
               >
@@ -137,7 +145,20 @@ function HistoryPage() {
                   <XAxis dataKey="time" />
                   <YAxis />
                   <Tooltip />
-                  <Line type="monotone" dataKey="level" stroke="#0EA5E9" strokeWidth={2} />
+                  <Line
+                    type="monotone"
+                    dataKey="nivelAgua"
+                    stroke="#0EA5E9"
+                    strokeWidth={2}
+                    name="Nível da Água (cm)"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="chuva"
+                    stroke="#84CC16"
+                    strokeWidth={2}
+                    name="Volume de Chuva (mm/h)"
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -153,25 +174,32 @@ function HistoryPage() {
               <table className={styles.table}>
                 <thead className={styles.tableHeader}>
                   <tr>
-                    <th className={styles.tableHead}>Data</th>
-                    <th className={styles.tableHead}>Hora</th>
-                    <th className={styles.tableHead}>Nível da água</th>
-                    <th className={styles.tableHead}>Volume de chuva</th>
-                    <th className={styles.tableHead}>Temperatura</th>
-                    <th className={styles.tableHead}>Status de alerta</th>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Nível da água (cm)</th>
+                    <th>Volume de chuva (mm/h)</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {tableData.map((entry, index) => (
-                    <tr key={index} className={styles.tableRow}>
-                      <td className={styles.tableCell}>{entry.date}</td>
-                      <td className={styles.tableCell}>{entry.time}</td>
-                      <td className={styles.tableCell}>{entry.waterLevel}</td>
-                      <td className={styles.tableCell}>{entry.rain}</td>
-                      <td className={styles.tableCell}>{entry.temp}</td>
-                      <td className={styles.tableCell}>{entry.alert}</td>
-                    </tr>
-                  ))}
+                  {dados.map((entry, index) => {
+                    const date = new Date(entry.timestamp);
+                    return (
+                      <tr key={index} className={styles.tableRow}>
+                        <td className={styles.tableCell}>
+                          {date.toLocaleDateString()}
+                        </td>
+                        <td className={styles.tableCell}>
+                          {date.toLocaleTimeString()}
+                        </td>
+                        <td className={styles.tableCell}>
+                          {entry.nivelAgua} cm
+                        </td>
+                        <td className={styles.tableCell}>
+                          {entry.chuva} mm/h
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
