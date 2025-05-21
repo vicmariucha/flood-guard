@@ -25,6 +25,22 @@ const chartData = [
   { time: "22:00", level: 27 },
 ];
 
+function exportToCSV() {
+  const header = "Data,Hora,Nível da água,Volume de chuva,Temperatura,Status de alerta\n";
+  const rows = tableData
+    .map(d => `${d.date},${d.time},${d.waterLevel},${d.rain},${d.temp},${d.alert}`)
+    .join("\n");
+
+  const blob = new Blob([header + rows], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "historico.csv";
+  link.click();
+}
+
+
 function HistoryPage() {
   const [activeTab, setActiveTab] = useState("grafico");
 
@@ -36,7 +52,7 @@ function HistoryPage() {
           <button className={styles.dateFilterButton}>
             <CalendarDays size={16} /> Filtrar por data
           </button>
-          <button className={styles.exportButton}>
+          <button onClick={exportToCSV} className={styles.exportButton}>
             <Download size={16} /> Exportar dados
           </button>
         </div>
