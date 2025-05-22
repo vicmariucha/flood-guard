@@ -14,6 +14,15 @@ import styles from "./HistoryPage.module.css";
 import { createPortal } from "react-dom";
 import { fetchMonitoramento } from "../services/couchdb";
 
+// 🧠 Classificação da chuva
+function getChuvaStatus(nivel: number) {
+  if (nivel > 4000) return "Sem chuva";
+  if (nivel > 3000) return "Chuva fraca";
+  if (nivel > 2000) return "Chuva moderada";
+  if (nivel > 1000) return "Chuva forte";
+  return "Chuva muito forte";
+}
+
 type DadosMonitoramento = {
   nivelAgua: number;
   chuva: number;
@@ -41,14 +50,14 @@ function HistoryPage() {
   }, []);
 
   const exportToCSV = () => {
-    const header =
-      "Data,Hora,Nível da água (cm),Volume de chuva (mm/h)\n";
+    const header = "Data,Hora,Nível da água (cm),Status da chuva\n";
     const rows = dados
       .map((d) => {
         const data = new Date(d.timestamp);
         const date = data.toLocaleDateString();
         const time = data.toLocaleTimeString();
-        return `${date},${time},${d.nivelAgua},${d.chuva}`;
+        const statusChuva = getChuvaStatus(d.chuva);
+        return `${date},${time},${d.nivelAgua},${statusChuva}`;
       })
       .join("\n");
 
@@ -64,7 +73,6 @@ function HistoryPage() {
   const chartData = dados.map((item) => ({
     time: new Date(item.timestamp).toLocaleTimeString(),
     nivelAgua: item.nivelAgua,
-    chuva: item.chuva,
   }));
 
   return (
@@ -152,13 +160,6 @@ function HistoryPage() {
                     strokeWidth={2}
                     name="Nível da Água (cm)"
                   />
-                  <Line
-                    type="monotone"
-                    dataKey="chuva"
-                    stroke="#84CC16"
-                    strokeWidth={2}
-                    name="Volume de Chuva (mm/h)"
-                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -177,12 +178,13 @@ function HistoryPage() {
                     <th>Data</th>
                     <th>Hora</th>
                     <th>Nível da água (cm)</th>
-                    <th>Volume de chuva (mm/h)</th>
+                    <th>Status da chuva</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((entry, index) => {
                     const date = new Date(entry.timestamp);
+                    const statusChuva = getChuvaStatus(entry.chuva);
                     return (
                       <tr key={index} className={styles.tableRow}>
                         <td className={styles.tableCell}>
@@ -194,9 +196,7 @@ function HistoryPage() {
                         <td className={styles.tableCell}>
                           {entry.nivelAgua} cm
                         </td>
-                        <td className={styles.tableCell}>
-                          {entry.chuva} mm/h
-                        </td>
+                        <td className={styles.tableCell}>{statusChuva}</td>
                       </tr>
                     );
                   })}

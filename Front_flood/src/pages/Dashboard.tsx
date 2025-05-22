@@ -9,9 +9,20 @@ import StationInfoCard from "../components/StationInfoCard";
 import WaterLevelAnalysisCard from "../components/WaterLevelAnalysisCard";
 import FloodAlertCard from "../components/FloodAlertCard";
 
+// 🧠 Função utilitária para classificar o status da chuva (baseado em 0 a 4095 convertido para %)
+function getChuvaStatus(nivel: number) {
+  if (nivel > 4000) return "Sem chuva";
+  if (nivel > 3000) return "Chuva fraca";
+  if (nivel > 2000) return "Chuva moderada";
+  if (nivel > 1000) return "Chuva forte";
+  return "Chuva muito forte";
+}
+
+
+// 📦 Tipagem dos dados do banco
 type DadosMonitoramento = {
-  nivelAgua: number;
-  chuva: number;
+  chuva: number;       // Sensor de chuva (0 a 4095)
+  nivelAgua: number;   // Nível da água no recipiente (cm)
   timestamp: string;
 };
 
@@ -55,7 +66,7 @@ function Dashboard() {
     const interval = setInterval(() => {
       fetchData();
       fetchTemperatura();
-    }, 5000);
+    }, 10000); // Atualiza a cada 10 segundos
 
     return () => clearInterval(interval);
   }, []);
@@ -64,15 +75,15 @@ function Dashboard() {
     <div className={styles.container}>
       <div className={styles.cardsGrid}>
         <InfoCard
-          title="Nível da água"
-          value={dados ? `${dados.nivelAgua} cm` : "..."}
-          description="+30% em relação ao mês anterior"
-          highlightColor="#FB923C"
+          title="Status da chuva"
+          value={dados ? getChuvaStatus(dados.chuva) : "Carregando..."}
+          description="Última medição em tempo real"
+          highlightColor="#0EA5E9"
           icon={<Droplet />}
         />
         <InfoCard
           title="Volume de chuva"
-          value={dados ? `${dados.chuva} mm/h` : "..."}
+          value={dados ? `${dados.nivelAgua.toFixed(2)} cm` : "0.00 cm"}
           description="+15% em relação ao mês anterior"
           highlightColor="#84CC16"
           icon={<CloudRain />}
@@ -92,6 +103,7 @@ function Dashboard() {
           icon={<Thermometer />}
         />
       </div>
+
       <div className={styles.graphAndAlert}>
         <WaterLevelChart />
         <div>
@@ -99,6 +111,7 @@ function Dashboard() {
           <WeatherForecast />
         </div>
       </div>
+
       <div className={styles.bottomGrid}>
         <StationInfoCard />
         <FloodAlertCard />
