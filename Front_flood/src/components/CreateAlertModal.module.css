@@ -1,0 +1,119 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  .modalContent {
+    background-color: #ffffff;
+    padding: 2rem 2.5rem;
+    border-radius: 8px;
+    width: 100%;
+    margin-left: 11rem;
+    max-width: 520px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    animation: fadeIn 0.2s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .modalHeader {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #0d1622;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+  }
+
+  
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    color: #374151;
+  }
+  
+  .input,
+  .select,
+  .textarea {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #f9fafb;
+    color: #0d1622;
+  }
+  
+  .textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+
+  }
+  
+  .cancelButton {
+    padding: 0.5rem 1rem;
+    background-color: #e5e7eb;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 1rem;
+  }
+  
+  .cancelButton:hover {
+    background-color: #d1d5db;
+  }
+  
+  .submitButton {
+    padding: 0.5rem 1.5rem;
+    background-color: #0d1622;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 1rem;
+
+  }
+  
+  .submitButton:hover {
+    background-color: #374151;
+  }
+  
