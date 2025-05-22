@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./AlertsPage.module.css";
-import { AlertCircle, Bell, Filter, Plus } from "lucide-react";
+import { AlertCircle, Bell, Plus, Trash2 } from "lucide-react";
 import CreateAlertModal from "../components/CreateAlertModal";
+import { fetchAlertas, salvarAlerta, deletarAlerta } from "../services/couchdb";
 
 type AlertStatus = "Ativo" | "Resolvido";
 
 interface Alert {
+  _id?: string;
+  _rev?: string;
   date: string;
   time: string;
   type: string;
@@ -15,55 +18,37 @@ interface Alert {
 }
 
 function AlertasPage() {
-  const [alertData, setAlertData] = useState<Alert[]>([
-    {
-      date: "2025-05-09",
-      time: "12:30",
-      type: "Nível de água",
-      level: "Amarelo",
-      message: "Nível da água acima de 30cm. Monitoramento contínuo necessário.",
-      status: "Ativo",
-    },
-    {
-      date: "2025-05-09",
-      time: "08:15",
-      type: "Volume de chuva",
-      level: "Amarelo",
-      message: "Precipitação acima de 40mm/h nas últimas 2 horas.",
-      status: "Ativo",
-    },
-    {
-      date: "2025-05-08",
-      time: "22:45",
-      type: "Volume de chuva",
-      level: "Vermelho",
-      message: "Precipitação crítica acima de 60mm/h por mais de 3 horas.",
-      status: "Resolvido",
-    },
-    {
-      date: "2025-05-07",
-      time: "16:20",
-      type: "Nível de água",
-      level: "Vermelho",
-      message: "Nível crítico alcançado. Risco de inundação iminente.",
-      status: "Resolvido",
-    },
-    {
-      date: "2025-05-06",
-      time: "10:05",
-      type: "Falha de estação",
-      level: "Amarelo",
-      message: "Estação Centro offline por mais de 30 minutos.",
-      status: "Resolvido",
-    },
-  ]);
-
+  const [alertData, setAlertData] = useState<Alert[]>([]);
   const [showActive, setShowActive] = useState(true);
   const [showResolved, setShowResolved] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleCreateAlert = (newAlert: Alert) => {
-    setAlertData((prev) => [newAlert, ...prev]);
+  useEffect(() => {
+    const carregarAlertas = async () => {
+      const data = await fetchAlertas();
+      setAlertData(data.reverse());
+    };
+    carregarAlertas();
+  }, []);
+
+  const handleCreateAlert = async (newAlert: Alert) => {
+    const res = await salvarAlerta(newAlert);
+    const alertaComId = { ...newAlert, _id: res.id, _rev: res.rev };
+    setAlertData((prev) => [alertaComId, ...prev]);
+  };
+
+  const handleDeleteAlert = async (id?: string, rev?: string) => {
+    if (!id || !rev) return;
+
+    const confirm = window.confirm("Tem certeza que deseja excluir este alerta?");
+    if (!confirm) return;
+
+    try {
+      await deletarAlerta(id, rev);
+      setAlertData((prev) => prev.filter((a) => a._id !== id));
+    } catch (error) {
+      console.error("Erro ao excluir alerta", error);
+    }
   };
 
   const filteredAlerts = alertData.filter((alert) => {
@@ -94,8 +79,10 @@ function AlertasPage() {
           Alertas resolvidos
         </label>
 
-
-        <button className={styles.newAlertButton} onClick={() => setIsModalOpen(true)}>
+        <button
+          className={styles.newAlertButton}
+          onClick={() => setIsModalOpen(true)}
+        >
           <Plus size={16} /> Novo alerta
         </button>
       </div>
@@ -125,6 +112,7 @@ function AlertasPage() {
               <th>Nível</th>
               <th>Mensagem</th>
               <th>Status</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -134,15 +122,28 @@ function AlertasPage() {
                 <td>{item.time}</td>
                 <td>{item.type}</td>
                 <td>
-                  <span className={`${styles.levelTag} ${styles[item.level.toLowerCase()]}`}>
+                  <span
+                    className={`${styles.levelTag} ${styles[item.level.toLowerCase()]}`}
+                  >
                     {item.level}
                   </span>
                 </td>
                 <td>{item.message}</td>
                 <td>
-                  <span className={`${styles.statusTag} ${styles[item.status.toLowerCase()]}`}>
+                  <span
+                    className={`${styles.statusTag} ${styles[item.status.toLowerCase()]}`}
+                  >
                     {item.status}
                   </span>
+                </td>
+                <td>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => handleDeleteAlert(item._id, item._rev)}
+                    title="Excluir"
+                  >
+                    <Trash2 size={16} />
+                  </button>
                 </td>
               </tr>
             ))}

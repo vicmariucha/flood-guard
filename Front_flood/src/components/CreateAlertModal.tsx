@@ -3,7 +3,7 @@ import styles from "./CreateAlertModal.module.css";
 
 interface CreateAlertModalProps {
   onClose: () => void;
-  onCreate: (alert: {
+  onSubmit: (alert: {
     date: string;
     time: string;
     type: string;
@@ -13,7 +13,7 @@ interface CreateAlertModalProps {
   }) => void;
 }
 
-function CreateAlertModal({ onClose, onCreate }: CreateAlertModalProps) {
+function CreateAlertModal({ onClose, onSubmit }: CreateAlertModalProps) {
   const [type, setType] = useState("");
   const [level, setLevel] = useState("Amarelo");
   const [message, setMessage] = useState("");
@@ -25,8 +25,8 @@ function CreateAlertModal({ onClose, onCreate }: CreateAlertModalProps) {
     const date = now.toISOString().split("T")[0];
     const time = now.toTimeString().split(":").slice(0, 2).join(":");
 
-    onCreate({ date, time, type, level, message, status });
-    onClose(); 
+    onSubmit({ date, time, type, level, message, status });
+    onClose();
   };
 
   return (
@@ -38,15 +38,15 @@ function CreateAlertModal({ onClose, onCreate }: CreateAlertModalProps) {
             <label className={styles.label}>Tipo</label>
             <select
               className={styles.select}
-              value={level}
+              value={type}
               onChange={(e) => setType(e.target.value)}
               required
             >
-              <option>Intensidade da chuva</option>
-              <option>Volume de chuva</option>
-              <option>Falha na estação</option>
+              <option value="">Selecione</option>
+              <option value="Intensidade da chuva">Intensidade da chuva</option>
+              <option value="Volume de chuva">Volume de chuva</option>
+              <option value="Falha na estação">Falha na estação</option>
             </select>
-
           </div>
 
           <div className={styles.formGroup}>
