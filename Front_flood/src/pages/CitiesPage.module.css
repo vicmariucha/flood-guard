@@ -1,0 +1,162 @@
+.container {
+  padding: 2rem;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  margin-top: 2rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #0d1622;
+}
+
+.topActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  max-width: 400px;
+}
+
+.buttonsRight {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.addButton,
+.refreshButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.addButton {
+  background-color: #0d1622;
+  color: white;
+  border: none;
+}
+
+.refreshButton {
+  background-color: white;
+  color: #0d1622;
+  border: 1px solid #e2e8f0;
+}
+
+.tabsList {
+  display: inline-flex;
+  background-color: #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.4rem;
+  margin-bottom: 1rem;
+  gap: 0.25rem;
+}
+
+.activeTab,
+.inactiveTab {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.activeTab {
+  background-color: white;
+  color: #0d1622;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.inactiveTab {
+  background-color: transparent;
+  color: #64748b;
+}
+
+.card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  overflow-x: auto;
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #0d1622;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+  color: #64748b;
+  font-weight: 500;
+  text-align: center;
+}
+
+td {
+  text-align: center;
+}
+
+.alertTag {
+  background-color: #fef3c7;
+  color: #92400e;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.noneTag {
+  background-color: #d1fae5;
+  color: #065f46;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.onlineTag {
+  background-color: #d1fae5;
+  color: #065f46;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+
+offlineTag {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}

@@ -6,6 +6,7 @@ import Dashboard from "../pages/Dashboard";
 import HistoryPage from "../pages/HistoryPage";
 import PrevisaoPage from "../pages/PrevisaoPage";
 import AlertsPage from "../pages/AlertsPage";
+import CitiesPage from "../pages/CitiesPage";
 
 interface LayoutProps {
   userName: string;
@@ -27,7 +28,7 @@ function Layout({ userName, cityName }: LayoutProps) {
       case "/alertas":
         return <AlertsPage/>;
       case "/cidades":
-        return <div style={{ padding: "2rem" }}>Página de Cidades</div>;
+        return <CitiesPage/>;
       case "/configuracoes":
         return <div style={{ padding: "2rem" }}>Página de Configurações</div>;
       case "/sair":
