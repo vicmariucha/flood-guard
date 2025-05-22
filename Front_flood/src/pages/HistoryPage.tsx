@@ -51,7 +51,7 @@ function HistoryPage() {
 
   const exportToCSV = () => {
     const header = "Data,Hora,Nível da água (cm),Status da chuva\n";
-    const rows = dados
+    const rows = filteredData
       .map((d) => {
         const data = new Date(d.timestamp);
         const date = data.toLocaleDateString();
@@ -70,7 +70,19 @@ function HistoryPage() {
     link.click();
   };
 
-  const chartData = dados.map((item) => ({
+  // 🧠 Filtra os dados com base na data selecionada
+  const filteredData = startDate
+    ? dados.filter((item) => {
+        const itemDate = new Date(item.timestamp);
+        return (
+          itemDate.getDate() === startDate.getDate() &&
+          itemDate.getMonth() === startDate.getMonth() &&
+          itemDate.getFullYear() === startDate.getFullYear()
+        );
+      })
+    : dados;
+
+  const chartData = filteredData.map((item) => ({
     time: new Date(item.timestamp).toLocaleTimeString(),
     nivelAgua: item.nivelAgua,
   }));
@@ -111,6 +123,7 @@ function HistoryPage() {
                   }}
                   inline
                   calendarClassName={styles.customDatepicker}
+                  dateFormat="dd/MM/yyyy"
                 />
               </div>,
               document.body
@@ -182,7 +195,7 @@ function HistoryPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {dados.map((entry, index) => {
+                  {filteredData.map((entry, index) => {
                     const date = new Date(entry.timestamp);
                     const statusChuva = getChuvaStatus(entry.chuva);
                     return (
