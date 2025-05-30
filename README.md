@@ -101,6 +101,6 @@ flood-guard/
 
 ## 🧑‍💻 Autor
 
-Desenvolvido por [Argoze](https://github.com/Argoze e [Mariucha](https://github.com/vicmariucha). – .
+Desenvolvido por [Argoze](https://github.com/Argoze) e [Mariucha](https://github.com/vicmariucha). – .
 
 ---
