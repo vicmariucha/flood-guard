@@ -31,41 +31,46 @@ function LoginPage() {
 
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleLogin}>
-        <h2 className={styles.title}>Entrar</h2>
+        <div className={styles.left}>
+            <h1>colocar imagem?</h1>
+        </div>
+        <div className={styles.right}>
+            <form className={styles.form} onSubmit={handleLogin}>
+                <h2 className={styles.title}>Entrar</h2>
 
-        <label className={styles.label}>
-          Email:
-          <input
-            type="email"
-            className={styles.input}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
+                <label className={styles.label}>
+                Email:
+                <input
+                    type="email"
+                    className={styles.input}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                </label>
 
-        <label className={styles.label}>
-          Senha:
-          <input
-            type="password"
-            className={styles.input}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
+                <label className={styles.label}>
+                Senha:
+                <input
+                    type="password"
+                    className={styles.input}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                </label>
 
-        {error && <p className={styles.error}>{error}</p>}
+                {error && <p className={styles.error}>{error}</p>}
 
-        <button type="submit" className={styles.button}>
-          Entrar
-        </button>
+                <button type="submit" className={styles.button}>
+                Entrar
+                </button>
 
-        <p className={styles.redirect}>
-          Ainda não tem conta? <a href="/cadastro">Cadastre-se</a>
-        </p>
-      </form>
+                <p className={styles.redirect}>
+                Ainda não tem conta? <a href="/cadastro">Cadastre-se</a>
+                </p>
+             </form>  
+        </div>
     </div>
   );
 }
