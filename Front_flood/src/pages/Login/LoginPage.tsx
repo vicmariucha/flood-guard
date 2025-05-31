@@ -1,10 +1,12 @@
 import { useState } from "react";
 import styles from "./LoginPage.module.css";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -39,7 +41,7 @@ function LoginPage() {
                 <h2 className={styles.title}>Entrar</h2>
 
                 <label className={styles.label}>
-                Email:
+                Email
                 <input
                     type="email"
                     className={styles.input}
@@ -50,14 +52,24 @@ function LoginPage() {
                 </label>
 
                 <label className={styles.label}>
-                Senha:
-                <input
-                    type="password"
-                    className={styles.input}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
+                  Senha
+                  <div className={styles.passwordWrapper}>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      className={styles.input}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className={styles.iconButton}
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      tabIndex={-1}
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
                 </label>
 
                 {error && <p className={styles.error}>{error}</p>}
