@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import styles from "./AlertsPage.module.css";
 import { AlertCircle, Bell, Plus, Trash2 } from "lucide-react";
-import CreateAlertModal from "../components/CreateAlertModal";
-import { fetchAlertas, salvarAlerta, deletarAlerta } from "../services/couchdb";
+import CreateAlertModal from "../../components/CreateAlertModal/CreateAlertModal";
+import { fetchAlertas, salvarAlerta, deletarAlerta } from "../../services/couchdb"
 
 type AlertStatus = "Ativo" | "Resolvido";
 
