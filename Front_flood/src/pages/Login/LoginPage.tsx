@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./LoginPage.module.css";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
-import logo from "../../assets/logo.png"; 
+import logo from "../../assets/logo.png";
 
 const carouselItems = [
   {
@@ -28,7 +28,21 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsVisible(false); 
+
+      setTimeout(() => {
+        setCarouselIndex((prevIndex) => (prevIndex + 1) % carouselItems.length);
+        setIsVisible(true); 
+      }, 300);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,24 +73,33 @@ function LoginPage() {
           <span className={styles.brandName}>FloodGuard</span>
         </div>
 
-        <div className={styles.carousel}>
-          <img
-            src={carouselItems[carouselIndex].image}
-            alt="Imagem carrossel"
-            className={styles.carouselImage}
-          />
-          <h2 className={styles.carouselTitle}>{carouselItems[carouselIndex].title}</h2>
-          <p className={styles.carouselText}>{carouselItems[carouselIndex].text}</p>
-          <div className={styles.dots}>
-            {carouselItems.map((_, i) => (
-              <span
-                key={i}
-                className={`${styles.dot} ${i === carouselIndex ? styles.activeDot : ""}`}
-                onClick={() => setCarouselIndex(i)}
-              />
+        <div className={styles.carouselTrackWrapper}>
+          <div
+            className={styles.carouselTrack}
+            style={{ transform: `translateX(-${carouselIndex * 100}%)` }}
+          >
+            {carouselItems.map((item, i) => (
+              <div key={i} className={styles.carouselSlide}>
+                <img src={item.image} alt={`Slide ${i}`} className={styles.carouselImage} />
+                <h2 className={styles.carouselTitle}>{item.title}</h2>
+                <p className={styles.carouselText}>{item.text}</p>
+              </div>
             ))}
           </div>
         </div>
+
+        <div className={styles.dots}>
+          {carouselItems.map((_, i) => (
+            <span
+              key={i}
+              className={`${styles.dot} ${i === carouselIndex ? styles.activeDot : ""}`}
+              onClick={() => {
+                setCarouselIndex(i);
+              }}
+            />
+          ))}
+        </div>
+
       </div>
 
       <div className={styles.right}>
