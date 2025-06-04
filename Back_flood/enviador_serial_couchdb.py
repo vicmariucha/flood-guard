@@ -51,3 +51,4 @@ while True:
     except Exception as e:
         print(f"❌ Erro geral: {e}")
         continue
+
