@@ -17,10 +17,9 @@ function getChuvaStatus(nivel: number) {
   return "Chuva muito forte";
 }
 
-
 type DadosMonitoramento = {
-  chuva: number;      
-  nivelAgua: number;   
+  chuva: number;
+  nivelAgua: number;
   timestamp: string;
 };
 
@@ -31,15 +30,18 @@ function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:5984/monitoramento/_all_docs?include_docs=true", {
-          headers: {
-            Authorization: "Basic QXJnb3plOjI1MjgyOQ==",
-          },
-        });
+        const res = await fetch(
+          "http://127.0.0.1:5984/monitoramento/_design/ordenar_por_tempo/_view/por_data?descending=true&limit=1",
+          {
+            headers: {
+              Authorization: "Basic QXJnb3plOjI1MjgyOQ==",
+            },
+          }
+        );
+
         const json = await res.json();
-        const docs = json.rows;
-        const ultimo = docs[docs.length - 1].doc;
-        setDados(ultimo);
+        const doc = json.rows?.[0]?.value;
+        setDados(doc);
       } catch (err) {
         console.error("Erro ao buscar dados do CouchDB", err);
       }
@@ -64,7 +66,7 @@ function Dashboard() {
     const interval = setInterval(() => {
       fetchData();
       fetchTemperatura();
-    }, 10000); // atualiza a cada 10 segundos
+    }, 10000); // Atualiza a cada 10 segundos
 
     return () => clearInterval(interval);
   }, []);

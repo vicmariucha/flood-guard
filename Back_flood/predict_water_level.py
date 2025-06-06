@@ -3,15 +3,32 @@ import numpy as np
 import datetime
 import json
 import couchdb
+import os
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
+from dotenv import load_dotenv
 
-# Conexão com o CouchDB
-COUCHDB_URL = "http://admin:admin@localhost:5984/"
-DATABASE_NAME = "leituras_sensor"
+# Carrega variáveis do .env
+load_dotenv()
 
-couch = couchdb.Server(COUCHDB_URL)
-db = couch[DATABASE_NAME]
+COUCHDB_URL = os.getenv("COUCHDB_URL")  # Ex: http://127.0.0.1:5984/monitoramento
+COUCHDB_USER = os.getenv("COUCHDB_USER")
+COUCHDB_PASS = os.getenv("COUCHDB_PASS")
+
+# 🔍 Extrair host e nome do banco da URL
+url_parts = COUCHDB_URL.replace("http://", "").split("/")
+host = url_parts[0]  # 127.0.0.1:5984
+database_name = url_parts[1]  # monitoramento
+full_url = f"http://{COUCHDB_USER}:{COUCHDB_PASS}@{host}"
+
+# Conectar ao CouchDB
+couch = couchdb.Server(full_url)
+
+if database_name not in couch:
+    print(f"❌ Banco de dados '{database_name}' não encontrado.")
+    exit(1)
+
+db = couch[database_name]
 
 # Função para carregar dados históricos do banco
 def carregar_dados():
@@ -19,8 +36,8 @@ def carregar_dados():
     for doc_id in db:
         doc = db[doc_id]
         try:
-            datahora = doc.get("timestamp")  # Ex: "2025-05-09T14:30:00"
-            nivel_agua = float(doc.get("nivel_agua", 0))
+            datahora = doc.get("timestamp")
+            nivel_agua = float(doc.get("nivelAgua", 0))
             chuva = float(doc.get("chuva", 0))
 
             dt = datetime.datetime.fromisoformat(datahora)
@@ -36,7 +53,6 @@ def carregar_dados():
 
 # Função para treinar o modelo e prever os próximos 24h
 def gerar_previsao(df):
-    # Features (entrada) e target (saida)
     X = df[["hora", "dia_semana", "chuva"]]
     y = df["nivel_agua"]
 
@@ -45,26 +61,24 @@ def gerar_previsao(df):
     modelo = RandomForestRegressor(n_estimators=100, random_state=42)
     modelo.fit(X_train, y_train)
 
-    # Previsão para as próximas 24 horas (de hora em hora)
     agora = datetime.datetime.now()
     previsoes = []
 
-    for i in range(9):  # de 0 até +24h em intervalos de 3h
-        futuro = agora + datetime.timedelta(hours=i*3)
+    for i in range(9):  # Previsões de 3 em 3h
+        futuro = agora + datetime.timedelta(hours=i * 3)
         entrada = pd.DataFrame([{
             "hora": futuro.hour,
             "dia_semana": futuro.weekday(),
-            "chuva": np.mean(df["chuva"])  # usa chuva média como aproximação
+            "chuva": np.mean(df["chuva"])  # Usa chuva média como aproximação
         }])
         pred = modelo.predict(entrada)[0]
         previsoes.append({
-            "time": "Agora" if i == 0 else f"+{i*3}h",
+            "time": "Agora" if i == 0 else f"+{i * 3}h",
             "level": round(pred, 2)
         })
 
     return previsoes
 
-# Função principal
 def main():
     df = carregar_dados()
     if df.empty:
@@ -73,11 +87,10 @@ def main():
 
     previsoes = gerar_previsao(df)
 
-    # Exportar para JSON (pode ser salvo ou enviado por API)
     with open("previsao_24h.json", "w") as f:
         json.dump(previsoes, f, indent=2)
 
-    print("Previsão gerada com sucesso! Veja o arquivo previsao_24h.json.")
+    print("✅ Previsão gerada com sucesso! Veja o arquivo previsao_24h.json.")
 
 if __name__ == "__main__":
     main()
