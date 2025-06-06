@@ -1,10 +1,10 @@
-// 🛠️ Pinos dos sensores
+//  Pinos dos sensores
 #define SENSOR_CHUVA 33
 #define TRIG_PIN 25
 #define ECHO_PIN 35
 #define LED_STATUS 2
 
-// 🏗️ Altura do recipiente (em cm)
+//  Altura do recipiente (em cm)
 const float ALTURA_TOTAL_CM = 40.0;
 
 void setup() {
@@ -18,7 +18,7 @@ void setup() {
   Serial.println("Sistema de monitoramento iniciado");
 }
 
-// 📏 Função para medir o nível de água (em cm)
+//  Função para medir o nível de água (em cm)
 float medirNivelAgua() {
   digitalWrite(TRIG_PIN, LOW);
   delayMicroseconds(2);
@@ -41,7 +41,7 @@ float medirNivelAgua() {
   return nivel;
 }
 
-// 🌧️ Função para medir a umidade do sensor de chuva (0 a 4095)
+//  Função para medir a umidade do sensor de chuva (0 a 4095)
 float medirChuva() {
   int leitura = analogRead(SENSOR_CHUVA);
   return leitura; // Mantemos o valor bruto para avaliação no frontend
