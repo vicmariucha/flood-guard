@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./CitiesPage.module.css";
-import CreateLocationModal from "../components/CreateLocationModal";
+import CreateLocationModal from "../../components/CreateLocationModal/CreateLocationModal";
 import { Plus, RefreshCw } from "lucide-react";
 
 const citiesData = [

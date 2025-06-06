@@ -12,7 +12,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "./HistoryPage.module.css";
 import { createPortal } from "react-dom";
-import { fetchMonitoramento } from "../services/couchdb";
+import { fetchMonitoramento } from "../../services/couchdb"
 
 // 🧠 Classificação da chuva
 function getChuvaStatus(nivel: number) {

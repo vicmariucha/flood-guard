@@ -1,7 +1,7 @@
 import { LayoutDashboard, History, TrendingUp, Bell, Building, Settings, LogOut } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import styles from "./Sidebar.module.css";
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png"
 
 function Sidebar() {
   return (

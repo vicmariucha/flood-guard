@@ -1,12 +1,12 @@
 import { useLocation } from "react-router-dom";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+import Header from "../Header/Header";
+import Sidebar from "../Sidebar/Sidebar";
 import styles from "./Layout.module.css";
-import Dashboard from "../pages/Dashboard";
-import HistoryPage from "../pages/HistoryPage";
-import PrevisaoPage from "../pages/PrevisaoPage";
-import AlertsPage from "../pages/AlertsPage";
-import CitiesPage from "../pages/CitiesPage";
+import Dashboard from "../../pages/Dashboard/Dashboard";
+import HistoryPage from "../../pages/HistoryPage/HistoryPage";
+import PrevisaoPage from "../../pages/PrevisaoPage/PrevisaoPage";
+import AlertasPage from "../../pages/AlertsPage/AlertsPage";
+import CitiesPage from "../../pages/CitiesPage/CitiesPage";
 
 interface LayoutProps {
   userName: string;
@@ -26,7 +26,7 @@ function Layout({ userName, cityName }: LayoutProps) {
       case "/previsao":
         return <PrevisaoPage/>;
       case "/alertas":
-        return <AlertsPage/>;
+        return <AlertasPage/>;
       case "/cidades":
         return <CitiesPage/>;
       case "/configuracoes":

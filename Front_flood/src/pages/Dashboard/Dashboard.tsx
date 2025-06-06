@@ -1,15 +1,14 @@
-import InfoCard from "../components/InfoCard";
+import InfoCard from "../../components/InfoCard/InfoCard";
 import { Droplet, CloudRain, CheckCircle, Thermometer } from "lucide-react";
 import styles from "./Dashboard.module.css";
-import WaterLevelChart from "../components/WaterLevelChart";
-import AlertStatus from "../components/AlertStatus";
-import WeatherForecast from "../components/WeatherForecast";
+import WaterLevelChart from "../../components/WaterLevelChart/WaterLevelChart";
+import AlertStatus from "../../components/AlertStatus/AlertStatus";
+import WeatherForecast from "../../components/WeatherForecast/WeatherForecast";
 import { useEffect, useState } from "react";
-import StationInfoCard from "../components/StationInfoCard";
-import WaterLevelAnalysisCard from "../components/WaterLevelAnalysisCard";
-import FloodAlertCard from "../components/FloodAlertCard";
+import StationInfoCard from "../../components/StationInfoCard/StationInfoCard";
+import WaterLevelAnalysisCard from "../../components/WaterLevelAnalysisCard/WaterLevelAnalysisCard";
+import FloodAlertCard from "../../components/FloodAlertCard/FloodAlertCard";
 
-// 🧠 Função utilitária para classificar o status da chuva (baseado em 0 a 4095 convertido para %)
 function getChuvaStatus(nivel: number) {
   if (nivel > 4000) return "Sem chuva";
   if (nivel > 3000) return "Chuva fraca";
@@ -19,10 +18,9 @@ function getChuvaStatus(nivel: number) {
 }
 
 
-// 📦 Tipagem dos dados do banco
 type DadosMonitoramento = {
-  chuva: number;       // Sensor de chuva (0 a 4095)
-  nivelAgua: number;   // Nível da água no recipiente (cm)
+  chuva: number;      
+  nivelAgua: number;   
   timestamp: string;
 };
 
@@ -66,7 +64,7 @@ function Dashboard() {
     const interval = setInterval(() => {
       fetchData();
       fetchTemperatura();
-    }, 10000); // Atualiza a cada 10 segundos
+    }, 10000); // atualiza a cada 10 segundos
 
     return () => clearInterval(interval);
   }, []);
